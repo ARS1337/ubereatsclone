@@ -29,7 +29,7 @@ jobs:
           CI: false
           
       - name: Zip artifact for deployment
-        run: powershell Compress-Archive . release.zip
+        run: powershell Compress-Archive .\build\* release.zip
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
