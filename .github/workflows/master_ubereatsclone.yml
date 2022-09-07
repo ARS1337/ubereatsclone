@@ -51,7 +51,7 @@ jobs:
           name: node-app
           
       - name: unzip artifact for deployment
-        run: powershell Expand-Archive release.zip
+        run: powershell Expand-Archive release.zip && powershell rm release.zip
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
