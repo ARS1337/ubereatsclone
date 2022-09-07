@@ -25,20 +25,16 @@ jobs:
         run: |
           npm install
           npm run build --if-present
-        env:
-          CI: false
-          
-      - name: Zip artifact for deployment
-        run: powershell Compress-Archive .\build\* release.zip
+          npm run test --if-present
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: release.zip
+          path: .
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
@@ -49,9 +45,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: node-app
-          
-      - name: unzip artifact for deployment
-        run: powershell Expand-Archive release.zip && powershell rm release.zip
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
@@ -59,5 +52,5 @@ jobs:
         with:
           app-name: 'ubereatsclone'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CB4F6E6206784EE08EF0CF77D870057C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1396C456008C401A949BD93C5B564558 }}
           package: .
